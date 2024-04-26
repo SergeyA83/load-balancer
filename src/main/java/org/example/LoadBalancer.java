@@ -6,7 +6,7 @@ import org.example.exceptions.MaxCapacityExceedException;
 import java.util.*;
 
 public class LoadBalancer {
-    private final int MAX_CAPACITY = 10;
+    private static final int MAX_CAPACITY = 10;
     private final Map<String, BackendInstance> addressToInstanceMap = new HashMap<>();
     private final SelectStrategy selectStrategy;
 
@@ -14,11 +14,11 @@ public class LoadBalancer {
         this.selectStrategy = selectStrategy;
     }
 
-    public void registerInstance(BackendInstance backendInstance, String address){
+    public void register(BackendInstance backendInstance){
         if (backendInstance==null){
             throw new IllegalArgumentException("Instance can't be null");
         }
-        if (address==null || address.isBlank()){
+        if (backendInstance.getAddress()==null || backendInstance.getAddress().isBlank()){
             throw new IllegalArgumentException("Address can't be null or empty");
         }
 
@@ -27,14 +27,14 @@ public class LoadBalancer {
                 throw new MaxCapacityExceedException();
             }
 
-            if (addressToInstanceMap.containsKey(address)) {
+            if (addressToInstanceMap.containsKey(backendInstance.getAddress())) {
                 throw new AddressExistException();
             }
-            addressToInstanceMap.put(address, backendInstance);
+            addressToInstanceMap.put(backendInstance.getAddress(), backendInstance);
         }
     }
 
-    public Optional<BackendInstance> selectInstance(){
+    public Optional<BackendInstance> select(){
         return selectStrategy.selectInstance(addressToInstanceMap);
     }
 }
