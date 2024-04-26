@@ -2,6 +2,10 @@ plugins {
     id("java")
 }
 
+java {
+    sourceCompatibility = JavaVersion.VERSION_21
+}
+
 group = "org.example"
 version = "1.0-SNAPSHOT"
 
