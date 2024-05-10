@@ -1,4 +1,4 @@
-package org.example.exceptions;
+package org.balancer.exceptions;
 
 public class AddressExistException extends RuntimeException{
     public AddressExistException() {

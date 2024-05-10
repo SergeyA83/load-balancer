@@ -1,7 +1,7 @@
-package org.example;
+package org.balancer;
 
-import org.example.exceptions.AddressExistException;
-import org.example.exceptions.MaxCapacityExceedException;
+import org.balancer.exceptions.AddressExistException;
+import org.balancer.exceptions.MaxCapacityExceedException;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
