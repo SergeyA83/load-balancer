@@ -7,7 +7,7 @@ import java.util.*;
 
 public class LoadBalancer {
     private static final int MAX_CAPACITY = 10;
-    private final Map<String, BackendInstance> addressToInstanceMap = new HashMap<>();
+    private final List<BackendInstance> instancesList = new ArrayList<>();
     private final SelectStrategy selectStrategy;
 
     public LoadBalancer(SelectStrategy selectStrategy) {
@@ -23,18 +23,18 @@ public class LoadBalancer {
         }
 
         synchronized (this) {
-            if (addressToInstanceMap.size()==MAX_CAPACITY) {
+            if (instancesList.size()==MAX_CAPACITY) {
                 throw new MaxCapacityExceedException();
             }
 
-            if (addressToInstanceMap.containsKey(backendInstance.getAddress())) {
+            if (instancesList.contains(backendInstance)) {
                 throw new AddressExistException();
             }
-            addressToInstanceMap.put(backendInstance.getAddress(), backendInstance);
+            instancesList.add(backendInstance);
         }
     }
 
     public Optional<BackendInstance> select(){
-        return selectStrategy.selectInstance(addressToInstanceMap);
+        return selectStrategy.selectInstance(instancesList);
     }
 }

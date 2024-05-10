@@ -2,15 +2,26 @@ package org.example;
 
 import org.example.exceptions.AddressExistException;
 import org.example.exceptions.MaxCapacityExceedException;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.when;
 
+//@ExtendWith(MockitoExtension.class)
 class LoadBalancerTest {
+    @BeforeAll
+    static void beforeAll() {
+        LoadBalancer loadBalancer = new LoadBalancer(new SelectStrategyRandom());
+    }
+
     @Test
     void registerInstance_when_instanceIsNull_then_exception() {
         LoadBalancer loadBalancer = new LoadBalancer(new SelectStrategyRandom());
